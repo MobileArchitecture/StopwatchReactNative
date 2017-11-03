@@ -3540,6 +3540,10 @@ jest-jasmine2@^20.0.4:
     once "^1.4.0"
     p-map "^1.1.1"
 
+jest-json-to-tap@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/jest-json-to-tap/-/jest-json-to-tap-2.1.0.tgz#cf762289c0f4d3ec17d69b820430fceb85192d2c"
+
 jest-matcher-utils@^20.0.3:
   version "20.0.3"
   resolved "https://registry.yarnpkg.com/jest-matcher-utils/-/jest-matcher-utils-20.0.3.tgz#b3a6b8e37ca577803b0832a98b164f44b7815612"

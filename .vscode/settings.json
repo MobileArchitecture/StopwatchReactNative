@@ -1,0 +1,14 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+
+  "files.associations": {
+      "*.js": "javascriptreact"
+  },
+  "javascript.validate.enable": false,
+  "nodeTdd.buildOnActivation": true,
+  "nodeTdd.testScript": "tdd",
+  "nodeTdd.reporter": "tap",
+  "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}"
+}
