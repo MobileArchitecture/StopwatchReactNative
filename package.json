@@ -25,11 +25,19 @@
   "jest": {
     "preset": "jest-expo",
     "collectCoverage": true,
-    "collectCoverageFrom" : ["src/**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
-    "coverageReporters": ["lcov", "text"]
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ]
   },
   "dependencies": {
     "expo": "^22.0.2",
+    "lodash": "^4.17.4",
     "react": "16.0.0-beta.5",
     "react-native": "^0.49.5",
     "react-native-button": "^2.1.0"

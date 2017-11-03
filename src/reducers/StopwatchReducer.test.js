@@ -18,9 +18,48 @@ describe('stopwatch reducer', () => {
         isRunning: false
       }, {
         type: 'STOPWATCH_START'
+      }).isRunning
+    ).toBeTruthy()
+  })
+
+  it('should create new lap while responding to start action', () => {
+    expect(
+      sut({
+        elapsed: 123,
+        laps: []
+      }, {
+        type: 'STOPWATCH_START'
       })
     ).toEqual({
-      isRunning: true
+      isRunning: true,
+      elapsed: 123,
+      lapStart: 123,
+      laps: [{
+        name: 'Lap 1',
+        time: 0
+      }]
+    })
+  })
+
+  it('should not create new lap if there was one while responding to start action', () => {
+    expect(
+      sut({
+        elapsed: 123,
+        laps: [{
+          name: 'Lap 1',
+          time: 123
+        }]
+      }, {
+        type: 'STOPWATCH_START'
+      })
+    ).toEqual({
+      isRunning: true,
+      elapsed: 123,
+      lapStart: 123,
+      laps: [{
+        name: 'Lap 1',
+        time: 123
+      }]
     })
   })
 
