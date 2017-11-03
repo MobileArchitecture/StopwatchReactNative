@@ -25,15 +25,15 @@ describe('stopwatch reducer', () => {
   it('should create new lap while responding to start action', () => {
     expect(
       sut({
-        elapsed: 123,
+        elapsed: 0,
         laps: []
       }, {
         type: 'STOPWATCH_START'
       })
     ).toEqual({
       isRunning: true,
-      elapsed: 123,
-      lapStart: 123,
+      elapsed: 0,
+      lapStart: 0,
       laps: [{
         name: 'Lap 1',
         time: 0
@@ -45,6 +45,7 @@ describe('stopwatch reducer', () => {
     expect(
       sut({
         elapsed: 123,
+        lapStart: 123,
         laps: [{
           name: 'Lap 1',
           time: 123
@@ -67,21 +68,29 @@ describe('stopwatch reducer', () => {
     expect(
         sut({
           isRunning: true,
-          elapsed: 0,
+          elapsed: 10,
           laps: [{
-            name: 'Lap 1',
+            name: 'Lap 2',
             time: 0
+          },
+          {
+            name: 'Lap 1',
+            time: 10
           }]
         }, {
           type: 'STOPWATCH_TICK',
-          elapsed: 123
+          elapsed: 5
         })
       ).toEqual({
         isRunning: true,
-        elapsed: 123,
+        elapsed: 15,
         laps: [{
+          name: 'Lap 2',
+          time: 5
+        },
+        {
           name: 'Lap 1',
-          time: 123
+          time: 10
         }]
       })
   })
@@ -109,6 +118,70 @@ describe('stopwatch reducer', () => {
       laps: [{
         name: 'Lap 1',
         time: 0
+      }]
+    })
+  })
+
+  it('should add second lap in responding to lap action', () => {
+    expect(
+      sut({
+        elapsed: 100,
+        lapStart: 0,
+        laps: [{
+          name: 'Lap 1',
+          time: 100
+        }]
+      }, {
+        type: 'STOPWATCH_LAP'
+      })
+    ).toEqual({
+      elapsed: 100,
+      lapStart: 100,
+      laps: [{
+        name: 'Lap 2',
+        time: 0
+      },
+      {
+        name: 'Lap 1',
+        time: 100
+      }]
+    })
+  })
+
+  it('should add third lap in responding to lap action', () => {
+    const lap2Start = {
+      elapsed: 100,
+      lapStart: 100,
+      laps: [{
+        name: 'Lap 2',
+        time: 0
+      },
+      {
+        name: 'Lap 1',
+        time: 100
+      }]
+    }
+
+    const lap2Ticked = sut(lap2Start, { type: 'STOPWATCH_TICK', elapsed: 30 })
+
+    expect(
+      sut(lap2Ticked, {
+        type: 'STOPWATCH_LAP'
+      })
+    ).toEqual({
+      elapsed: 130,
+      lapStart: 130,
+      laps: [{
+        name: 'Lap 3',
+        time: 0
+      },
+      {
+        name: 'Lap 2',
+        time: 30
+      },
+      {
+        name: 'Lap 1',
+        time: 100
       }]
     })
   })
