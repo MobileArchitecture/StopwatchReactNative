@@ -6,7 +6,9 @@ describe('stopwatch reducer', () => {
       sut(undefined, {})
     ).toEqual({
       isRunning: false,
-      elapsed: 0
+      elapsed: 0,
+      lapStart: 0,
+      laps: []
     })
   })
 
@@ -22,6 +24,29 @@ describe('stopwatch reducer', () => {
     })
   })
 
+  it('should increment elapsed and last lap on tick action', () => {
+    expect(
+        sut({
+          isRunning: true,
+          elapsed: 0,
+          laps: [{
+            name: 'Lap 1',
+            time: 0
+          }]
+        }, {
+          type: 'STOPWATCH_TICK',
+          elapsed: 123
+        })
+      ).toEqual({
+        isRunning: true,
+        elapsed: 123,
+        laps: [{
+          name: 'Lap 1',
+          time: 123
+        }]
+      })
+  })
+
   it('should stop running responding to stop action', () => {
     expect(
       sut({
@@ -31,6 +56,21 @@ describe('stopwatch reducer', () => {
       })
     ).toEqual({
       isRunning: false
+    })
+  })
+
+  it('should add new lap in responding to lap action', () => {
+    expect(
+      sut({
+        laps: []
+      }, {
+        type: 'STOPWATCH_LAP'
+      })
+    ).toEqual({
+      laps: [{
+        name: 'Lap 1',
+        time: 0
+      }]
     })
   })
 })

@@ -1,12 +1,23 @@
 const initialState = {
   isRunning: false,
-  elapsed: 0
+  elapsed: 0,
+  lapStart: 0,
+  laps: []
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case 'STOPWATCH_TICK':
-    //     return { ...state };
+    case 'STOPWATCH_TICK':
+      const currentLaps = state.laps
+      let activeLap = Object.assign({}, currentLaps[0])
+      activeLap.time += action.elapsed
+      let finishedLaps = currentLaps.slice(1)
+
+      return {
+        ...state,
+        elapsed: state.elapsed + action.elapsed,
+        laps: [activeLap, ...finishedLaps]
+      }
 
     case 'STOPWATCH_START':
       return {
@@ -20,8 +31,16 @@ export default (state = initialState, action) => {
         isRunning: false
       }
 
-    // case 'STOPWATCH_LAP':
-    // return { ...state };
+    case 'STOPWATCH_LAP':
+      const newLap = {
+        name: `Lap ${state.laps.length + 1}`,
+        time: 0
+      }
+      return {
+        ...state,
+        lapStart: state.elapsed,
+        laps: [newLap, ...state.laps]
+      }
 
     // case 'STOPWATCH_RESET':
     // return { ...state };
