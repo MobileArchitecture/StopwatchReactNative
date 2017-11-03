@@ -23,7 +23,10 @@
     "tdd": "node node_modules/jest/bin/jest.js --json 2>/dev/null | jest-json-to-tap"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "collectCoverage": true,
+    "collectCoverageFrom" : ["src/**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "coverageReporters": ["lcov", "text"]
   },
   "dependencies": {
     "expo": "^22.0.2",

@@ -10,5 +10,6 @@
   "nodeTdd.buildOnActivation": true,
   "nodeTdd.testScript": "tdd",
   "nodeTdd.reporter": "tap",
+  "nodeTdd.showCoverage": true,
   "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}"
 }
