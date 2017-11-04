@@ -52,24 +52,50 @@ describe('stopwatch reducer', () => {
 
   describe('GIVEN running state', () => {
     let runningState
+    let runningState2Laps
     let runningStateEtalon
+    let runningState2LapsEtalon
     beforeEach(() => {
       runningState = {
         isRunning: true,
-        elapsed: 123,
+        elapsed: 100,
         lapStart: 0,
         laps: [{
           name: 'Lap 1',
-          time: 123
+          time: 100
+        }]
+      }
+      runningState2Laps = {
+        isRunning: true,
+        elapsed: 100,
+        lapStart: 0,
+        laps: [{
+          name: 'Lap 2',
+          time: 0
+        },
+        {
+          name: 'Lap 1',
+          time: 100
         }]
       }
       runningStateEtalon = Object.assign({}, runningState)
+      runningState2LapsEtalon = Object.assign({}, runningState2Laps)
     })
 
     afterEach(() => {
       expect(runningState).toEqual(runningStateEtalon)
+      expect(runningState2Laps).toEqual(runningState2LapsEtalon)
     })
 
+    it('should increment elapsed and last lap on tick action', () => {
+      const tickedState = sut(runningState2Laps, {
+        type: 'STOPWATCH_TICK',
+        elapsed: 5
+      })
+      expect(tickedState.elapsed).toEqual(runningState2Laps.elapsed + 5)
+      expect(tickedState.laps[0].time).toEqual(runningState2Laps.laps[0].time + 5)
+      expect(tickedState.laps[1].time).toEqual(runningState2Laps.laps[1].time)
+    })
     it('should stop running responding to stop action', () => {
       expect(
         sut({
@@ -79,6 +105,26 @@ describe('stopwatch reducer', () => {
         })
       ).toEqual({
         isRunning: false
+      })
+    })
+
+    it('should add second lap in responding to lap action', () => {
+      expect(
+        sut(runningState, {
+          type: 'STOPWATCH_LAP'
+        })
+      ).toEqual({
+        isRunning: true,
+        elapsed: 100,
+        lapStart: 100,
+        laps: [{
+          name: 'Lap 2',
+          time: 0
+        },
+        {
+          name: 'Lap 1',
+          time: 100
+        }]
       })
     })
   })
@@ -115,37 +161,6 @@ describe('stopwatch reducer', () => {
     })
   })
 
-  it('should increment elapsed and last lap on tick action', () => {
-    expect(
-      sut({
-        isRunning: true,
-        elapsed: 10,
-        laps: [{
-          name: 'Lap 2',
-          time: 0
-        },
-        {
-          name: 'Lap 1',
-          time: 10
-        }]
-      }, {
-        type: 'STOPWATCH_TICK',
-        elapsed: 5
-      })
-    ).toEqual({
-      isRunning: true,
-      elapsed: 15,
-      laps: [{
-        name: 'Lap 2',
-        time: 5
-      },
-      {
-        name: 'Lap 1',
-        time: 10
-      }]
-    })
-  })
-
   it('should add new lap in responding to lap action', () => {
     expect(
       sut({
@@ -157,32 +172,6 @@ describe('stopwatch reducer', () => {
       laps: [{
         name: 'Lap 1',
         time: 0
-      }]
-    })
-  })
-
-  it('should add second lap in responding to lap action', () => {
-    expect(
-      sut({
-        elapsed: 100,
-        lapStart: 0,
-        laps: [{
-          name: 'Lap 1',
-          time: 100
-        }]
-      }, {
-        type: 'STOPWATCH_LAP'
-      })
-    ).toEqual({
-      elapsed: 100,
-      lapStart: 100,
-      laps: [{
-        name: 'Lap 2',
-        time: 0
-      },
-      {
-        name: 'Lap 1',
-        time: 100
       }]
     })
   })
