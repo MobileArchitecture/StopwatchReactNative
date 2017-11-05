@@ -7,9 +7,13 @@
       "*.js": "javascriptreact"
   },
   "javascript.validate.enable": false,
+
+  "nodeTdd.activateOnStartup": false,
   "nodeTdd.buildOnActivation": true,
   "nodeTdd.testScript": "tdd",
   "nodeTdd.reporter": "tap",
   "nodeTdd.showCoverage": true,
-  "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}"
+  "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}",
+
+  "jest.pathToJest": "node_modules/jest/bin/jest.js"
 }
