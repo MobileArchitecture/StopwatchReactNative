@@ -48,6 +48,51 @@ describe('stopwatch reducer', () => {
         }).isRunning
       ).toBeTruthy()
     })
+
+    describe('GIVEN stopped state', () => {
+      let stoppedState
+      let stoppedStateEtalon
+      beforeEach(() => {
+        stoppedState = {
+          isRunning: false,
+          elapsed: 100,
+          lapStart: 0,
+          laps: [{
+            name: 'Lap 1',
+            time: 100
+          }]
+        }
+        stoppedStateEtalon = Object.assign({}, stoppedState)
+      })
+
+      afterEach(() => {
+        expect(stoppedState).toEqual(stoppedStateEtalon)
+      })
+
+      it('should not create new lap if there was one while responding to start action', () => {
+        expect(
+          sut(stoppedState, {
+            type: 'STOPWATCH_START'
+          })
+        ).toEqual({
+          ...stoppedState,
+          isRunning: true
+        })
+      })
+
+      describe('WHEN respoding to reset action', () => {
+        let resetState
+        beforeEach(() => {
+          resetState = sut(stoppedState, {
+            type: 'STOPWATCH_RESET'
+          })
+        })
+
+        it('THEN should get back to initial state', () => {
+          expect(resetState).toEqual(initialState)
+        })
+      })
+    })
   })
 
   describe('GIVEN running state', () => {
@@ -128,90 +173,58 @@ describe('stopwatch reducer', () => {
         }]
       })
     })
-  })
 
-  describe('GIVEN stopped state', () => {
-    let stoppedState
-    let stoppedStateEtalon
-    beforeEach(() => {
-      stoppedState = {
-        isRunning: false,
-        elapsed: 100,
-        lapStart: 0,
+    it('should add new lap in responding to lap action', () => {
+      expect(
+        sut({
+          laps: []
+        }, {
+          type: 'STOPWATCH_LAP'
+        })
+      ).toEqual({
         laps: [{
+          name: 'Lap 1',
+          time: 0
+        }]
+      })
+    })
+
+    it('should add third lap in responding to lap action', () => {
+      const lap2Start = {
+        elapsed: 100,
+        lapStart: 100,
+        laps: [{
+          name: 'Lap 2',
+          time: 0
+        },
+        {
           name: 'Lap 1',
           time: 100
         }]
       }
-      stoppedStateEtalon = Object.assign({}, stoppedState)
-    })
 
-    afterEach(() => {
-      expect(stoppedState).toEqual(stoppedStateEtalon)
-    })
+      const lap2Ticked = sut(lap2Start, { type: 'STOPWATCH_TICK', elapsed: 30 })
 
-    it('should not create new lap if there was one while responding to start action', () => {
       expect(
-        sut(stoppedState, {
-          type: 'STOPWATCH_START'
+        sut(lap2Ticked, {
+          type: 'STOPWATCH_LAP'
         })
       ).toEqual({
-        ...stoppedState,
-        isRunning: true
+        elapsed: 130,
+        lapStart: 130,
+        laps: [{
+          name: 'Lap 3',
+          time: 0
+        },
+        {
+          name: 'Lap 2',
+          time: 30
+        },
+        {
+          name: 'Lap 1',
+          time: 100
+        }]
       })
-    })
-  })
-
-  it('should add new lap in responding to lap action', () => {
-    expect(
-      sut({
-        laps: []
-      }, {
-        type: 'STOPWATCH_LAP'
-      })
-    ).toEqual({
-      laps: [{
-        name: 'Lap 1',
-        time: 0
-      }]
-    })
-  })
-
-  it('should add third lap in responding to lap action', () => {
-    const lap2Start = {
-      elapsed: 100,
-      lapStart: 100,
-      laps: [{
-        name: 'Lap 2',
-        time: 0
-      },
-      {
-        name: 'Lap 1',
-        time: 100
-      }]
-    }
-
-    const lap2Ticked = sut(lap2Start, { type: 'STOPWATCH_TICK', elapsed: 30 })
-
-    expect(
-      sut(lap2Ticked, {
-        type: 'STOPWATCH_LAP'
-      })
-    ).toEqual({
-      elapsed: 130,
-      lapStart: 130,
-      laps: [{
-        name: 'Lap 3',
-        time: 0
-      },
-      {
-        name: 'Lap 2',
-        time: 30
-      },
-      {
-        name: 'Lap 1',
-        time: 100
-      }]
     })
   })
 })

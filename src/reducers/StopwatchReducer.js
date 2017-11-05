@@ -53,8 +53,8 @@ export default (state = initialState, action) => {
     case 'STOPWATCH_LAP':
       return addLap(state)
 
-    // case 'STOPWATCH_RESET':
-    // return { ...state };
+    case 'STOPWATCH_RESET':
+      return initialState
 
     default:
       return state
