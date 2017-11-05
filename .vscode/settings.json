@@ -17,6 +17,5 @@
   "nodeTdd.showCoverage": true,
   "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}",
 
-  "jest.autoEnable": true,
-  "jest.pathToJest": "node_modules/jest/bin/jest.js"
+  "jest.autoEnable": true
 }
