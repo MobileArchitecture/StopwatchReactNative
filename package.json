@@ -19,6 +19,7 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
+    "coverage": "node node_modules/jest/bin/jest.js",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "tdd": "node node_modules/jest/bin/jest.js --json 2>/dev/null | jest-json-to-tap"
   },
