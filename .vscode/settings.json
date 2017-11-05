@@ -6,6 +6,8 @@
   "files.associations": {
       "*.js": "javascriptreact"
   },
+
+  "standard.enable": true,
   "javascript.validate.enable": false,
 
   "nodeTdd.activateOnStartup": false,
@@ -15,5 +17,6 @@
   "nodeTdd.showCoverage": true,
   "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}",
 
+  "jest.autoEnable": true,
   "jest.pathToJest": "node_modules/jest/bin/jest.js"
 }
