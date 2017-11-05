@@ -96,6 +96,7 @@ describe('stopwatch reducer', () => {
       expect(tickedState.laps[0].time).toEqual(runningState2Laps.laps[0].time + 5)
       expect(tickedState.laps[1].time).toEqual(runningState2Laps.laps[1].time)
     })
+
     it('should stop running responding to stop action', () => {
       expect(
         sut({
