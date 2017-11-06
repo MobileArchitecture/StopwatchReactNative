@@ -15,7 +15,5 @@
   "nodeTdd.testScript": "tdd",
   "nodeTdd.reporter": "tap",
   "nodeTdd.showCoverage": true,
-  "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}",
-
-  "jest.autoEnable": true
+  "nodeTdd.glob": "src/**/*.{js,ts,jsx,tsx}"
 }
