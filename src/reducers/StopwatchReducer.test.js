@@ -1,7 +1,8 @@
 import sut from './StopwatchReducer'
+import {given, when} from '../jest-given'
 
-describe('stopwatch reducer', () => {
-  describe('GIVEN initial state', () => {
+given('stopwatch reducer', () => {
+  given('initial state', () => {
     let initialState
     let initialStateEtalon
     beforeEach(() => {
@@ -49,7 +50,7 @@ describe('stopwatch reducer', () => {
       ).toBeTruthy()
     })
 
-    describe('GIVEN stopped state', () => {
+    given('stopped state', () => {
       let stoppedState
       let stoppedStateEtalon
       beforeEach(() => {
@@ -80,7 +81,7 @@ describe('stopwatch reducer', () => {
         })
       })
 
-      describe('WHEN respoding to reset action', () => {
+      when('respoding to reset action', () => {
         let resetState
         beforeEach(() => {
           resetState = sut(stoppedState, {
@@ -91,14 +92,14 @@ describe('stopwatch reducer', () => {
           resetState = null
         })
 
-        it('THEN should get back to initial state', () => {
+        it('should get back to initial state', () => {
           expect(resetState).toEqual(initialState)
         })
       })
     })
   })
 
-  describe('GIVEN running state', () => {
+  given('running state', () => {
     let runningState
     let runningState2Laps
     let runningStateEtalon
@@ -135,14 +136,27 @@ describe('stopwatch reducer', () => {
       expect(runningState2Laps).toEqual(runningState2LapsEtalon)
     })
 
-    it('should increment elapsed and last lap on tick action', () => {
-      const tickedState = sut(runningState2Laps, {
-        type: 'STOPWATCH_TICK',
-        elapsed: 5
+    when('stopwatch tick', () => {
+      const kElapsedTime = 5
+      let tickedState
+      beforeEach(() => {
+        tickedState = sut(runningState2Laps, {
+          type: 'STOPWATCH_TICK',
+          elapsed: kElapsedTime
+        })
       })
-      expect(tickedState.elapsed).toEqual(runningState2Laps.elapsed + 5)
-      expect(tickedState.laps[0].time).toEqual(runningState2Laps.laps[0].time + 5)
-      expect(tickedState.laps[1].time).toEqual(runningState2Laps.laps[1].time)
+
+      it('should increment overal elapsed time', () => {
+        expect(tickedState.elapsed).toEqual(runningState2Laps.elapsed + kElapsedTime)
+      })
+      it('should increment last lap time', () => {
+        const kLastLapId = 0
+        expect(tickedState.laps[kLastLapId].time).toEqual(runningState2Laps.laps[kLastLapId].time + kElapsedTime)
+      })
+      it('should not change finished lap\'s time', () => {
+        const kFinishedLapId = 1
+        expect(tickedState.laps[kFinishedLapId].time).toEqual(runningState2Laps.laps[kFinishedLapId].time)
+      })
     })
 
     it('should stop running responding to stop action', () => {
