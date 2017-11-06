@@ -87,6 +87,9 @@ describe('stopwatch reducer', () => {
             type: 'STOPWATCH_RESET'
           })
         })
+        afterEach(() => {
+          resetState = null
+        })
 
         it('THEN should get back to initial state', () => {
           expect(resetState).toEqual(initialState)
