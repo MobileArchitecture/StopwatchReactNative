@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`stopwatch actions should be able to trigger lap 1`] = `
+Object {
+  "type": "STOPWATCH_LAP",
+}
+`;
+
+exports[`stopwatch actions should be able to trigger reset 1`] = `
+Object {
+  "type": "STOPWATCH_RESET",
+}
+`;
+
+exports[`stopwatch actions should be able to trigger start 1`] = `
+Object {
+  "type": "STOPWATCH_START",
+}
+`;
+
+exports[`stopwatch actions should be able to trigger stop 1`] = `
+Object {
+  "type": "STOPWATCH_STOP",
+}
+`;
+
+exports[`stopwatch actions should be able to trigger tick 1`] = `
+Object {
+  "elapsed": 125,
+  "type": "STOPWATCH_TICK",
+}
+`;
